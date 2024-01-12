@@ -1,0 +1,63 @@
+<!-- HTML CONTENT STARTS -->
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<style>
+    /* CSS to hide the content */
+#pdf-content {
+  display: none;
+}
+.btnDownload {
+  position: absolute;
+  left: 25px; /* Adjust as needed */
+  top:25px;
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  .btnDownload {
+    position: absolute;
+    left: 25px; /* Adjust as needed */
+    top:25px;
+
+  }
+}
+</style>
+
+<div id="pdf-content">
+  <head>
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <h1>Hello World</h1>
+</div>
+<button onclick="downloadPDF()" class="btn btn-rounded btn-outline-success shadow btnDownload">Download</button><br><br>
+<script>
+function downloadPDF() {
+  // Select the HTML element to be converted to PDF
+  var originalElement = document.getElementById('pdf-content');
+
+  // Create a new div element
+  var pdfContainer = document.createElement('div');
+
+  // Set the HTML content of the new div to be the same as the original content
+  pdfContainer.innerHTML = originalElement.innerHTML;
+
+  // Options for html2pdf
+  var options = {
+    margin: 10,
+    filename: 'filename.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    // Callback to remove the new div element after PDF generation
+    onAfterRender: function () {
+      document.body.removeChild(pdfContainer);
+    }
+  };
+
+  // Call html2pdf library to generate PDF using the new div element
+  html2pdf(pdfContainer, options);
+}
+</script>
+</html>
